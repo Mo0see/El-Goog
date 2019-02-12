@@ -4,6 +4,7 @@ import json
 import datetime
 import os
 
+os.system('cls')
 ipAddress = 'http://' + input('IP Address: ') + ':8008'
 interval = (float(input('Interval: ')) * 60)
 
@@ -50,7 +51,7 @@ def mainMenu ():
     print('-----------------------')
     print('| Welcome to El Goog! |')
     print('-----------------------\n')
-    choice = input('[1] Fuck Your Alarms\n[2] Rebooterino\n[3] Factory Reseterino\n> ')
+    choice = input('[1] Fuck Your Alarms\n[2] Rebooterino\n[3] Factory Reseterino\n\n> ')
     if choice == '1':
         albola()
     if choice == '2':
