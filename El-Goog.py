@@ -4,10 +4,8 @@ import json
 import datetime
 import os
 
-#ipAddress = input('IP Address: ') + ':8008'
-ipAddress = '192.168.1.7:8008'
-#interval = (float(input('Interval: ')) * 60)
-interval = 10
+ipAddress = 'http://' + input('IP Address: ') + ':8008'
+interval = (float(input('Interval: ')) * 60)
 
 def albola ():
 
@@ -15,7 +13,7 @@ def albola ():
     
     while True:
 
-        info = json.loads(requests.get('http://192.168.1.7:8008/setup/assistant/alarms').text)
+        info = json.loads(requests.get('{}/setup/assistant/alarms'.format(ipAddress)).text)
         alarms = len(info['alarm'])
 
         if alarms != 0:
@@ -23,7 +21,7 @@ def albola ():
             print('[{}] {} alarm(s) detected!'.format(datetime.datetime.now().strftime('%X'), alarms))
             for i in info['alarm']:
                 alarmID = i['id']
-                requests.post('http://192.168.1.7:8008/setup/assistant/alarms/delete', json={'ids': [alarmID]})
+                requests.post('{}/setup/assistant/alarms/delete'.format(ipAddress), json={'ids': [alarmID]})
                 print('[{}] Destroyed alarm: {}'.format(datetime.datetime.now().strftime('%X'), alarmID.replace('alarm/', '')))
             print('----------------------------------------------------------------')
         else:
@@ -33,7 +31,7 @@ def albola ():
 
 def reboot ():
     os.system('cls')
-    requests.post('http://192.168.1.7:8008/setup/reboot', json={"params": "now"})
+    requests.post('{}/setup/reboot'.format(ipAddress), json={"params": "now"})
     print('[{}] BOOM! You just got dat rebooterino son!'.format(datetime.datetime.now().strftime('%X')))
     time.sleep(2)
     input('\n[{}] Press ENTER to go back to the main menu...'.format(datetime.datetime.now().strftime('%X')))
@@ -41,7 +39,7 @@ def reboot ():
 
 def factoryReset ():
     os.system('cls')
-    requests.post('http://192.168.1.7:8008/setup/reboot', json={"params": "fdr"})
+    requests.post('{}/setup/reboot'.format(ipAddress), json={"params": "fdr"})
     print('[{}] Deadass B? You just factory reset that bitch!'.format(datetime.datetime.now().strftime('%X')))
     time.sleep(2)
     input('\n[{}] Press ENTER to go back to the main menu...'.format(datetime.datetime.now().strftime('%X')))
@@ -58,8 +56,7 @@ def mainMenu ():
     if choice == '2':
         reboot()
     if choice == '3':
-        #factoryReset()
-        mainMenu()
+        factoryReset()
     else:
         mainMenu()
 
