@@ -1,2 +1,4 @@
 # El-Goog
-Tool to manipulate google homes
+Instructions:
+1. pip install -r requirements.txt
+2. python El-Goog.py
