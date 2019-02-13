@@ -3,13 +3,14 @@ import time
 import json
 import datetime
 import os
+from getmac import get_mac_address
 
 os.system('cls')
 ipAddress = 'http://' + input('IP Address: ') + ':8008'
-interval = (float(input('Interval: ')) * 60)
 
 def albola ():
 
+    interval = (float(input('Interval: ')) * 60)
     os.system('cls')
     
     while True:
@@ -57,7 +58,8 @@ def mainMenu ():
     if choice == '2':
         reboot()
     if choice == '3':
-        factoryReset()
+        #factoryReset()
+        mainMenu()
     else:
         mainMenu()
 
