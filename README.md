@@ -3,7 +3,7 @@ El-Goog
 
 El-Goog is an interface to execute certain commands on a Google Home remotely.
 
-![Image description](https://cdn.discordapp.com/attachments/519568224745160705/544966664513388545/9ae6c13b2983b81bffefdd8be6b7ad41.png)
+![Image description](https://cdn.discordapp.com/attachments/519568224745160705/547272624980623371/555793484732a0c35682fd5612b9239f.png)
 
 ## What is this tool?
 
