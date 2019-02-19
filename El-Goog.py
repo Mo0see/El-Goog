@@ -4,45 +4,66 @@ import json
 import datetime
 import os
 from getmac import get_mac_address
+from progress.bar import Bar
+
+gHomes = []
+interval = 10
 
 os.system('cls')
-ipAddress = 'http://' + input('IP Address: ') + ':8008'
+print('Scanning your network for Google Homes! [ETA: 126.5s]\n')
+
+bar = Bar('Processing', max=253)
+for i in range(255):
+    if (i < 2):
+        None
+    else:
+        try:
+            find = requests.get('http://192.168.1.{}:8008/setup/eureka_info'.format(i), timeout=.2)
+            if find.status_code == 200:
+                gHomes.append(i)
+        except:
+            None
+        bar.next()
+bar.finish()
+
+input('\nFound {} Google Homes!\nPress ENTER to go to the Main Menu...'.format(len(gHomes)))
 
 def albola ():
 
-    interval = (float(input('Interval: ')) * 60)
     os.system('cls')
     
     while True:
+        for ipAddress in gHomes:
+            info = json.loads(requests.get('http://192.168.1.{}:8008/setup/assistant/alarms'.format(ipAddress)).text)
+            alarms = len(info['alarm'])
 
-        info = json.loads(requests.get('{}/setup/assistant/alarms'.format(ipAddress)).text)
-        alarms = len(info['alarm'])
-
-        if alarms != 0:
-            print('----------------------------------------------------------------')
-            print('[{}] {} alarm(s) detected!'.format(datetime.datetime.now().strftime('%X'), alarms))
-            for i in info['alarm']:
-                alarmID = i['id']
-                requests.post('{}/setup/assistant/alarms/delete'.format(ipAddress), json={'ids': [alarmID]})
-                print('[{}] Destroyed alarm: {}'.format(datetime.datetime.now().strftime('%X'), alarmID.replace('alarm/', '')))
-            print('----------------------------------------------------------------')
-        else:
-            print('[{}] No alarms detected.'.format(datetime.datetime.now().strftime('%X')))
+            if alarms != 0:
+                print('----------------------------------------------------------------')
+                print('[{}] {} alarm(s) detected!'.format(datetime.datetime.now().strftime('%X'), alarms))
+                for i in info['alarm']:
+                    alarmID = i['id']
+                    requests.post('http://192.168.1.{}:8008/setup/assistant/alarms/delete'.format(ipAddress), json={'ids': [alarmID]})
+                    print('[{}] Destroyed alarm: {}'.format(datetime.datetime.now().strftime('%X'), alarmID.replace('alarm/', '')))
+                print('----------------------------------------------------------------')
+            else:
+                print('[{}] No alarms detected.'.format(datetime.datetime.now().strftime('%X')))
         
         time.sleep(interval)
 
 def reboot ():
     os.system('cls')
-    requests.post('{}/setup/reboot'.format(ipAddress), json={"params": "now"})
-    print('[{}] BOOM! You just got dat rebooterino son!'.format(datetime.datetime.now().strftime('%X')))
+    for ipAddress in gHomes:
+        requests.post('http://192.168.1.{}:8008/setup/reboot'.format(ipAddress), json={"params": "now"})
+        print('[{}] BOOM! You just got dat rebooterino son!'.format(datetime.datetime.now().strftime('%X')))
     time.sleep(2)
     input('\n[{}] Press ENTER to go back to the main menu...'.format(datetime.datetime.now().strftime('%X')))
     mainMenu()
 
 def factoryReset ():
     os.system('cls')
-    requests.post('{}/setup/reboot'.format(ipAddress), json={"params": "fdr"})
-    print('[{}] Deadass B? You just factory reset that bitch!'.format(datetime.datetime.now().strftime('%X')))
+    for ipAddress in gHomes:
+        requests.post('http://192.168.1.{}:8008/setup/reboot'.format(ipAddress), json={"params": "fdr"})
+        print('[{}] Deadass B? You just factory reset that bitch!'.format(datetime.datetime.now().strftime('%X')))
     time.sleep(2)
     input('\n[{}] Press ENTER to go back to the main menu...'.format(datetime.datetime.now().strftime('%X')))
     mainMenu()
@@ -58,8 +79,7 @@ def mainMenu ():
     if choice == '2':
         reboot()
     if choice == '3':
-        #factoryReset()
-        mainMenu()
+        factoryReset()
     else:
         mainMenu()
 
