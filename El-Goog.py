@@ -17,7 +17,7 @@ for i in range(255):
         None
     else:
         try:
-            find = requests.get('http://192.168.1.{}:8008/setup/eureka_info'.format(i), timeout=.3)
+            find = requests.get('http://192.168.1.{}:8008/setup/eureka_info'.format(i), timeout=.2)
             if find.status_code == 200:
                 gHomes.append(i)
         except:
