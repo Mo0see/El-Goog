@@ -3,7 +3,6 @@ import time
 import json
 import datetime
 import os
-from getmac import get_mac_address
 from progress.bar import Bar
 
 gHomes = []
