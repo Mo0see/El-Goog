@@ -72,7 +72,7 @@ def mainMenu ():
     print('-----------------------')
     print('| Welcome to El Goog! |')
     print('-----------------------\n')
-    choice = input('[1] Fuck Your Alarms\n[2] Rebooterino\n[3] Factory Reseterino\n\n> ')
+    choice = input('[1] Anti-Alarms\n[2] Rebooter\n[3] Factory Reseter\n\n> ')
     if choice == '1':
         albola()
     if choice == '2':
