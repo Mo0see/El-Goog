@@ -17,9 +17,10 @@ for i in range(255):
         None
     else:
         try:
-            find = requests.get('http://192.168.1.{}:8008/setup/eureka_info'.format(i), timeout=.5)
+            find = requests.get('http://192.168.1.{}:8008/setup/assistant/alarms'.format(i), timeout=.5)
             if find.status_code == 200:
                 gHomes.append(i)
+                print(i)
         except:
             None
         bar.next()
@@ -78,7 +79,8 @@ def mainMenu ():
     if choice == '2':
         reboot()
     if choice == '3':
-        factoryReset()
+        #factoryReset()
+        mainMenu()
     else:
         mainMenu()
 
